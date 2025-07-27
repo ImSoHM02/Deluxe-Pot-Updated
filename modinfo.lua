@@ -1,60 +1,21 @@
 description = 
 [[
--V1.1.7-
+-v1.1.9-
+Fixed an issue with some items not showing icons and some recipe crashing (Equipment items such as Milk Made Hat)
+
+-v1.1.8-
+Fixed an incompatibilty between Deluxe Pot and the Achievement & Level mod. The two should work together now.
+
+-v1.1.7-
 Fixed a bug that caused the game server to crash upon loading a world the second time after creating it.
 
--V1.1.6-
+-v1.1.6-
 Fixed a bug where characters could not directly drag and drop food into the Deluxe Pot to add food before the GUI was open. Now functions the same as the Crock Pot.
-
--V1.1.5-
-Added an option to scale the pot and it's collision. Scales from 150% down to 25% in size.
-
--V1.1.4-
-Fixed an issue relating to Craft Pot (727774324) compatibility.
-
--V1.1.3-
-Fixed an issue with the widget crashing servers.
-
--V1.1.1-
-Fixed a bug regarding the recipe not showing up in worlds that had been generated before the mod was added. (Thanks The Toblin for noticing this!)
-Rewrote the UI to use the default cookpot UI, since it was already doing that, but in a custom way (Useless, I know. It's just how the original mod functioned and I didn't think to change it)
-This UI change will make it compatible with my new mod Recipe Repeater, that allows you to repeat receipes when opening a cooking pot with a custom key.
-
--V1.1-
-Huge rewrite of the code. No longer uses its own custom stewer file (This was part of the original mod), which means that it is now FULLY compatible with Heap of Foods, including the custom cooking time! 
-It also means it should be compatible with any mod that uses any function from stewer.lua.
-With this change, the pot is now also compatible with Insight (workshopid=2189004162).
-
-Re-added custom cooking time
-Insight compatibility (along with possibly other mods)
-Code rewrite
-Removed the option for selecting how many ingredients to use
-Fixed some translation issues in the settings
-Regardless of the amount of output items selected in settings, only 1 will show from now on (but you will still gain the extra)
-
--V1.0.5-
-Another small fix. I accidentally took out the code for recipes, whoops.
-
--V1.0.4-
-Fixed small crash issue. Thanks ChaosMind42.
-
--V1.0.3-
-Removed cooktime as an option since it was causing crashes. I'll look more into this in the future.
-
--V1.0.2-
-POSSIBLE fix for the error between this mod and HoF. Was probably caused by the December update to HoF. Line of code seemed to be running even when HoF was detected, which it shouldn't do.
-If still getting errors, please post your full crash log to pastebin and post it on the mod page.
-
--V1.0.1-
-Added Warly's Heap of Foods recipes to the pot. Fixed an issue where Warly's recipes were being added to standard crockpot instead of just the Deluxe Pot.
-Added an in-game lore reason to characters inspecting the Deluxe Pot as to why they can make Warly's dishes without him, and a small custom line to Warly.
-Changed priority of mod so it loads AFTER Heap of Foods, in order to call upon its files.
-Cleaned up code.
 ]]
 
 name                        = "Deluxe Cooking Pot - Updated"
 author                      = "Im So HM02 (Original by Astro & JanKiwen)"
-version                     = "1.1.7"
+version                     = "1.1.9"
 forumthread                 = ""
 icon                        = "modicon.tex"
 icon_atlas                  = "modicon.xml"

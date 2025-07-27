@@ -127,7 +127,7 @@ local function HarvestAmount(self, harvester)
                 local amountbonus = TUNING.deluxpotconf.AmountBonus
                 stacksize = stacksize + amountbonus -- Extra food amount is now configurable.
 
-                if stacksize > 1 then
+                if stacksize > 1 and loot.components.stackable then
                     loot.components.stackable:SetStackSize(stacksize)
                 end
 
@@ -163,28 +163,12 @@ local function HarvestAmount(self, harvester)
 end
 
 
-function deepcopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in pairs(orig) do
-            copy[deepcopy(orig_key)] = deepcopy(orig_value)
-        end
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
-end
-
 for k, v in pairs(cooking.recipes.cookpot) do
     table.insert(prefabs, v.name)
 end
 
 for k,recipe in pairs (FOODSTCOOK) do
-
-    local rep = deepcopy(recipe)
-    AddCookerRecipe("deluxpot", rep) 
+    AddCookerRecipe("deluxpot", recipe)
 end
 
 local function onhammered(inst, worker)
@@ -257,16 +241,33 @@ local function spoilfn(inst)
     end
 end
 
+local function SetProductSymbol(inst, product, overridebuild)
+    local recipe = cooking.GetRecipe(inst.prefab, product)
+    local potlevel = recipe ~= nil and recipe.potlevel or nil
+    local build = (recipe ~= nil and recipe.overridebuild) or overridebuild or "cook_pot_food"
+    local overridesymbol = (recipe ~= nil and recipe.overridesymbolname) or product
+
+    if potlevel == "high" then
+        inst.AnimState:Show("swap_high")
+        inst.AnimState:Hide("swap_mid")
+        inst.AnimState:Hide("swap_low")
+    elseif potlevel == "low" then
+        inst.AnimState:Hide("swap_high")
+        inst.AnimState:Hide("swap_mid")
+        inst.AnimState:Show("swap_low")
+    else
+        inst.AnimState:Hide("swap_high")
+        inst.AnimState:Show("swap_mid")
+        inst.AnimState:Hide("swap_low")
+    end
+
+    inst.AnimState:OverrideSymbol("food", build, overridesymbol)
+end
+
 local function ShowProduct(inst)
     if not inst:HasTag("burnt") then
         local product = inst.components.stewer.product
-        if IsModCookingProduct(inst.prefab, product) or IsModCookingProduct("cookpot", product) then
-            --print("moded!")
-            inst.AnimState:OverrideSymbol("food", product, product)
-        else
-            --print("not moded!")
-            inst.AnimState:OverrideSymbol("food", "cook_pot_food", product)
-        end
+        SetProductSymbol(inst, product, IsModCookingProduct(inst.prefab, product) and product or nil)
     end
 end
 
