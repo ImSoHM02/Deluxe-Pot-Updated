@@ -168,7 +168,9 @@ for k, v in pairs(cooking.recipes.cookpot) do
 end
 
 for k,recipe in pairs (FOODSTCOOK) do
-    AddCookerRecipe("deluxpot", recipe)
+    local recipename = recipe.name or k
+    local is_mod_food = recipename ~= nil and IsModCookingProduct ~= nil and IsModCookingProduct("cookpot", recipename) or false
+    AddCookerRecipe("deluxpot", recipe, is_mod_food)
 end
 
 local function onhammered(inst, worker)

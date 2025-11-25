@@ -1,5 +1,8 @@
 description = 
-[[
+[[ 
+-v1.1.10-
+Fixed a crash when opening the recipe book alongside Heap of Foods (and its Warly Spices add-on) by preserving mod cookbook atlases.
+
 -v1.1.9-
 Fixed an issue with some items not showing icons and some recipe crashing (Equipment items such as Milk Made Hat)
 
@@ -15,7 +18,7 @@ Fixed a bug where characters could not directly drag and drop food into the Delu
 
 name                        = "Deluxe Cooking Pot - Updated"
 author                      = "Im So HM02 (Original by Astro & JanKiwen)"
-version                     = "1.1.9"
+version                     = "1.1.10"
 forumthread                 = ""
 icon                        = "modicon.tex"
 icon_atlas                  = "modicon.xml"
