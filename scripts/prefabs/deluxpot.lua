@@ -73,6 +73,28 @@ local function StartCookingDeluxe(self, doer)
         self.product, cooktime = cooking.CalculateRecipe(self.inst.prefab, self.ingredient_prefabs)
         local productperishtime = cooking.GetRecipe(self.inst.prefab, self.product).perishtime or 0
 
+        -- Calculate productmult based on number of ingredients and AmountBonus config
+        local numitems = #self.ingredient_prefabs
+        self.productmult = 1
+
+        if TUNING.deluxpotconf.AmountBonus == 1 then
+            if numitems == 4 then
+                self.productmult = 2
+            end
+        elseif TUNING.deluxpotconf.AmountBonus == 2 then
+            if numitems == 3 then
+                self.productmult = 2
+            elseif numitems == 4 then
+                self.productmult = 3
+            end
+        elseif TUNING.deluxpotconf.AmountBonus == 3 then
+            if numitems == 2 then
+                self.productmult = 2
+            elseif numitems >= 3 then
+                self.productmult = 3
+            end
+        end
+
         if productperishtime > 0 then
             local spoilage_total = 0
             local spoilage_n = 0
@@ -124,8 +146,7 @@ local function HarvestAmount(self, harvester)
                 end
 
                 local stacksize = recipe and recipe.stacksize or 1
-                local amountbonus = TUNING.deluxpotconf.AmountBonus
-                stacksize = stacksize + amountbonus -- Extra food amount is now configurable.
+                stacksize = stacksize * (self.productmult or 1)
 
                 if stacksize > 1 and loot.components.stackable then
                     loot.components.stackable:SetStackSize(stacksize)
@@ -243,33 +264,14 @@ local function spoilfn(inst)
     end
 end
 
-local function SetProductSymbol(inst, product, overridebuild)
-    local recipe = cooking.GetRecipe(inst.prefab, product)
-    local potlevel = recipe ~= nil and recipe.potlevel or nil
-    local build = (recipe ~= nil and recipe.overridebuild) or overridebuild or "cook_pot_food"
-    local overridesymbol = (recipe ~= nil and recipe.overridesymbolname) or product
-
-    if potlevel == "high" then
-        inst.AnimState:Show("swap_high")
-        inst.AnimState:Hide("swap_mid")
-        inst.AnimState:Hide("swap_low")
-    elseif potlevel == "low" then
-        inst.AnimState:Hide("swap_high")
-        inst.AnimState:Hide("swap_mid")
-        inst.AnimState:Show("swap_low")
-    else
-        inst.AnimState:Hide("swap_high")
-        inst.AnimState:Show("swap_mid")
-        inst.AnimState:Hide("swap_low")
-    end
-
-    inst.AnimState:OverrideSymbol("food", build, overridesymbol)
-end
-
 local function ShowProduct(inst)
     if not inst:HasTag("burnt") then
         local product = inst.components.stewer.product
-        SetProductSymbol(inst, product, IsModCookingProduct(inst.prefab, product) and product or nil)
+        if IsModCookingProduct(inst.prefab, product) or IsModCookingProduct("cookpot", product) then
+            inst.AnimState:OverrideSymbol("food", product, product)
+        else
+            inst.AnimState:OverrideSymbol("food", "cook_pot_food", product)
+        end
     end
 end
 

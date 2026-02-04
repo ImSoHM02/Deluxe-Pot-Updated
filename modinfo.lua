@@ -1,24 +1,14 @@
-description = 
-[[ 
--v1.1.10-
-Fixed a crash when opening the recipe book alongside Heap of Foods (and its Warly Spices add-on) by preserving mod cookbook atlases.
-
--v1.1.9-
-Fixed an issue with some items not showing icons and some recipe crashing (Equipment items such as Milk Made Hat)
-
--v1.1.8-
-Fixed an incompatibilty between Deluxe Pot and the Achievement & Level mod. The two should work together now.
-
--v1.1.7-
-Fixed a bug that caused the game server to crash upon loading a world the second time after creating it.
-
--v1.1.6-
-Fixed a bug where characters could not directly drag and drop food into the Deluxe Pot to add food before the GUI was open. Now functions the same as the Crock Pot.
+description =
+[[
+Version 1.1.11 - Food for Thought
+- Fixed:
+    Cooked food display issue where finished dishes would appear invisible or show incorrect food items.
+    Harvest amount calculation now multiplies stack size by productmult instead of adding bonus, ensuring visual display matches harvested quantity.
 ]]
 
 name                        = "Deluxe Cooking Pot - Updated"
 author                      = "Im So HM02 (Original by Astro & JanKiwen)"
-version                     = "1.1.10"
+version                     = "1.1.11"
 forumthread                 = ""
 icon                        = "modicon.tex"
 icon_atlas                  = "modicon.xml"
